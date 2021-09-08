@@ -13,7 +13,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StandFramework", "StandFram
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetConsole", "NetConsole\NetConsole.csproj", "{5384E86B-9642-42C1-ABAF-793DF7779623}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CoreConsole", "CoreConsole\CoreConsole.csproj", "{B4A816FA-37D8-4435-83C2-340A72C033F3}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StandConsole", "CoreConsole\StandConsole.csproj", "{B4A816FA-37D8-4435-83C2-340A72C033F3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
