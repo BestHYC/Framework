@@ -43,6 +43,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AOPTest\CacheAttribute.cs" />
+    <Compile Include="AOPTest\PersonRepository.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -53,10 +55,6 @@
     <ProjectReference Include="..\NETFramework\NETFramework.csproj">
       <Project>{f93e96b7-7920-4c41-a83a-e322a23dddea}</Project>
       <Name>NETFramework</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\StandFramework\StandFramework.csproj">
-      <Project>{b55f27ee-2fd6-4af6-84e5-09093ea19ad5}</Project>
-      <Name>StandFramework</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -45,7 +45,7 @@ namespace Framework
     /// int A(){  console.write("只会执行一次") return 3;}
     /// Handler2只会对返回值 3进行更改,而不会执行A()本身
     /// </summary>
-    [AttributeUsage(AttributeTargets.Method)]
+    [AttributeUsage(AttributeTargets.Method, Inherited = true)]
     public abstract class MethodAttribute : Attribute
     {
         public int Order { get; set; }

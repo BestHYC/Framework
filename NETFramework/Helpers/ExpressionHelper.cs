@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Reflection;
 
@@ -9,11 +10,11 @@ namespace StandFramework.Helpers
 
         /// BuildGetPropertyValueExpression("Name")
         /// 编译的 Func 为 Func<T, Object> func = (item) => item.Name;
-        public static Func<T, Object> BuildGetPropertyValueExpression<T>(String name)
+        public static Func<T, Object> BuildGetPropertyValueFunc<T>(String name)
         {
             Type type = typeof(T);
             PropertyInfo prop = type.GetProperty(name);
-            return BuildGetPropertyValueExpression<T>(prop);
+            return BuildGetPropertyValueFunc<T>(prop);
         }
         /// <summary>
         /// BuildGetPropertyValueExpression(Name)
@@ -22,7 +23,7 @@ namespace StandFramework.Helpers
         /// <typeparam name="T"></typeparam>
         /// <param name="str"></param>
         /// <returns></returns>
-        public static Func<T, Object> BuildGetPropertyValueExpression<T>(PropertyInfo str)
+        public static Func<T, Object> BuildGetPropertyValueFunc<T>(PropertyInfo str)
         {
             Type type = typeof(T);
             ParameterExpression param = Expression.Parameter(type, "c");
@@ -48,7 +49,7 @@ namespace StandFramework.Helpers
             return Expression.Lambda<Action<T, Object>>(setPropertyValue, target, propertyValue).Compile();
         }
         /// <summary>
-        /// 通过泛型 获取创建此Type的新对象
+        /// 通过Type 获取创建此Type的新对象
         /// Func<A> a = () => new A();
         /// </summary>
         /// <typeparam name="T"></typeparam>
@@ -60,6 +61,7 @@ namespace StandFramework.Helpers
             var constructorCall = Expression.New(constructor);
             return Expression.Lambda<Func<T>>(constructorCall).Compile();
         }
+
         /// <summary>
         /// 通过Type 对象创建 Object对象
         /// Type a = typeof(A);
@@ -73,6 +75,28 @@ namespace StandFramework.Helpers
             var constructor = type.GetConstructor(new Type[0]);
             var constructorCall = Expression.New(constructor);
             return Expression.Lambda<Func<Object>>(constructorCall).Compile();
+        }
+        public static Func<Object, Object> BuildNewFunc(Type type, params Type[] param)
+        {
+            List<Type> argumentTypes = new List<Type>();
+            if (param != null)
+            {
+                foreach (var t in param)
+                {
+                    argumentTypes.Add(t);
+                }
+            }
+            List<ParameterExpression> expressions = new List<ParameterExpression>();
+            List<UnaryExpression> parameters = new List<UnaryExpression>();
+            for (int i = 0; i < argumentTypes.Count; i++)
+            {
+                var paramExpress = Expression.Parameter(typeof(object), string.Concat("param", i));
+                expressions.Add(paramExpress);
+                parameters.Add(Expression.Convert(paramExpress, argumentTypes[i]));
+            }
+            var constructor = type.GetConstructor(argumentTypes.ToArray());
+            var constructorCall = Expression.New(constructor, parameters);
+            return Expression.Lambda<Func<Object, Object>>(constructorCall, expressions).Compile();
         }
     }
 }

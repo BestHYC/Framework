@@ -1,4 +1,6 @@
-﻿using System;
+﻿using StandFramework.Helpers;
+using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -49,9 +51,14 @@ namespace Framework
             foreach (var item in orderByAttibutes)
             {
                 MethodAttribute attribue = item as MethodAttribute;
-                var hanlder = Activator.CreateInstance(attribue.HandlerType) as IAopHandler;
+                Func<Object> func;
+                if (!m_func.TryGetValue(attribue.HandlerType, out func))
+                {
+                    func = ExpressionHelper.BuildNewByDefaultFunc(attribue.HandlerType);
+                    m_func.TryAdd(attribue.HandlerType, func);
+                }
+                var hanlder = func() as IAopHandler;
                 if (hanlder == null) return NextSink.SyncProcessMessage(msg);
-
                 defaultMessage.MethodAttribute = attribue;
                 if (hanlder.BeforeExecuting(message.MethodBase, defaultMessage) && isExecuted)
                 {
@@ -66,5 +73,6 @@ namespace Framework
             }
             return defaultMessage;
         }
+        private static ConcurrentDictionary<Type, Func<Object>> m_func = new ConcurrentDictionary<Type, System.Func<Object>>();
     }
 }

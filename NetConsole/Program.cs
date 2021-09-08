@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NetConsole.AOPTest;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,6 +11,9 @@ namespace NetConsole
     {
         static void Main(string[] args)
         {
+            PersonRepository personRepository = new PersonRepository("test");
+            var item = personRepository.Person();
+            Console.Read();
         }
     }
 }
