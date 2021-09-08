@@ -1,0 +1,123 @@
+﻿@{
+    ViewData["Title"] = "日志搜索页";
+}
+    <div class="row">
+        <div class="col-sm-1">
+            <ul class="nav nav-pills nav-stacked" id="level">
+                <li class="active" data-value=""><a>All</a></li>
+                <li data-value="Info"><a>Info</a></li>
+                <li data-value="Error"><a>Error</a></li>
+                <li data-value="Trace"><a>Trace</a></li>
+                <li data-value="Warn"><a>Warn</a></li>
+            </ul>
+        </div>
+        <div class="col-sm-11">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <div class="row">
+                        <div class="col-sm-2">
+                            <input type="text" class="form-control" id="search"
+                                   placeholder="请输入名字">
+                        </div>
+                        <div class='col-sm-2'>
+                            <input type="text" class="form-control" id="dateTime"
+                                   placeholder="请输入时间">
+                        </div>
+
+                        <button class="btn btn-primary col-sm-1" id="searchBtn">搜索</button>
+                        <label>时间:"2020-07-31 12:20:21"需包起来,"And" 用&连接, "Or" 用空格连接</label>
+                    </div>
+                </div>
+                <div class="panel-body">
+                    <table style="table-layout: fixed;word-break:break-all; word-wrap:break-all;" class="table table-striped"  id="logtable">
+                        <thead>
+                            <tr>
+                                <th style="width:180px;">时间</th>
+                                <th style="width:80px; ">级别</th>
+                                <th style="width:auto;">内容</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+@section Scripts{
+    <script type="text/javascript">
+        var m_init = {
+            logger: "Home/Logger"
+        };
+        var m_data = {
+            project: "",
+            dateTime:"",
+            level:"",
+            search:""
+        };
+        $(function () {
+            m_data.project = $("#project li.active").attr("data-value");
+            var d = new Date().toLocaleDateString();
+            $('#dateTime').val(d);
+            $("#searchBtn").trigger("click");
+        })
+        $("#searchBtn").on("click", function () {
+            var url = m_init.logger;
+            url += "?project=" + m_data.project + "&dateTime=" + $('#dateTime').val()+ "&search=";
+            var search = "";
+            if (m_data.level) {
+                search += m_data.level;
+            }
+            var query = $("#search").val();
+            if (query) {
+                if (search) {
+                    search += "&";
+                }
+            }
+            search += query;
+            url += encodeURIComponent(search);
+            $.ajax({
+                url: url,
+                type:"get",
+                success: function (response) {
+                    var str = "";
+                    if (!response) {
+                        str += "<tr><td>无</td><td>无</td><td>无</td></tr>";
+                    } else {
+                        response.forEach(function (item) {
+                            item = JSON.parse(item);
+                            var bodyHtml = "";
+                            var obj = item["Value"];
+                            if (obj) {
+                                if (typeof obj == "string") {
+                                    bodyHtml = obj;
+                                } else {
+                                    bodyHtml = JSON.stringify(obj);
+                                }
+                            }
+                            str += "<tr><td>" + item["Time"] + "</td><td>" + item["Level"] + "</td><td>" + bodyHtml + "</td></tr>";
+                        })
+                    }
+                    $("#logtable tbody").html(str);
+                }
+            })
+            return false;
+        })
+        $("#project").on("click","li", function () {
+            var temp = $(this);
+            temp.siblings().removeClass("active");
+            temp.addClass("active");
+            m_data.project = temp.attr("data-value");
+            $("#searchBtn").trigger("click");
+            return false;
+        })
+        $("#level li").on("click", function () {
+            var temp = $(this);
+            temp.siblings().removeClass("active");
+            temp.addClass("active");
+            m_data.level = temp.attr("data-value");
+            $("#searchBtn").trigger("click");
+            return false;
+        })
+    </script>
+}

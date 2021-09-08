@@ -1,0 +1,34 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <Version>1.0.0.2</Version>
+    <Description>1.日志压缩
+2.新增缓存通过redis进行订阅发布通知</Description>
+    <Authors>Best_Hong</Authors>
+    <PackageProjectUrl>https://github.com/BestHYC/CoreFramework.git</PackageProjectUrl>
+    <PackageReleaseNotes>1.全局配置扩展
+2.基于Dapper的ORM,以及EF仓储层封装
+3.锁的基本使用方式
+4.统一权限配置
+5.基于表达式树的AutoMapper自己实现方式</PackageReleaseNotes>
+    <AssemblyVersion>1.0.0.1</AssemblyVersion>
+    <FileVersion>1.0.0.1</FileVersion>
+    <PackageId>Hong.Framework</PackageId>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="CSRedisCore" Version="3.6.5" />
+    <PackageReference Include="Dapper" Version="2.0.35" />
+    <PackageReference Include="libphonenumber-csharp" Version="8.12.7" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.6" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="3.1.6" />
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
+    <PackageReference Include="NLog" Version="4.7.3" />
+    <PackageReference Include="NLog.Web.AspNetCore" Version="4.9.3" />
+    <PackageReference Include="RabbitMQ.Client" Version="6.1.0" />
+    <PackageReference Include="System.IO.Compression.ZipFile" Version="4.3.0" />
+  </ItemGroup>
+
+</Project>
