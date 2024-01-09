@@ -10,12 +10,12 @@ namespace Framework
     public class ExceptionHandlerMiddleware
     {
         private readonly RequestDelegate requestDelegate;
-        private readonly LogHelper<ExceptionHandlerMiddleware> m_logger;
+        //private readonly LogHelper<ExceptionHandlerMiddleware> m_logger;
 
         public ExceptionHandlerMiddleware(RequestDelegate rd)
         {
             requestDelegate = rd;
-            m_logger = LogHelper<ExceptionHandlerMiddleware>.Instance;
+            //m_logger = //LogHelper<ExceptionHandlerMiddleware>.Instance;
         }
 
         public async Task Invoke(HttpContext context)
@@ -38,7 +38,7 @@ namespace Framework
 
         private async Task WriteExceptionAsync(HttpContext context, Exception e)
         {
-            m_logger.LogWarning(e.ToString());
+            //m_logger.LogWarning(e.ToString());
             ApiResult apiResult = new ApiResult();
             apiResult.Code = ResultStatusEnum.Error;
             apiResult.Message = e.Message?.ToString();

@@ -7,7 +7,7 @@ namespace CoreConsole
     {
         public A()
         {
-            Console.WriteLine("XXXXXX");
+            
         }
     }
     class Program

@@ -13,10 +13,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Framework\Framework.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
     <Content Update="wwwroot\js\MQLogger.js">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

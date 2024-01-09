@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Lucence.Logger.Web.Models;
 using System.IO;
-using Framework;
+using PanGu.Framework;
 using System.Text;
 
 namespace Lucence.Logger.Web.Controllers
@@ -39,7 +39,7 @@ namespace Lucence.Logger.Web.Controllers
         }
         public void Storage()
         {
-            String path = Path.Combine(LoggerModel.Path, "testtxt", "write.lock");
+            String path = System.IO.Path.Combine(LoggerModel.Path, "testtxt", "write.lock");
             if (System.IO.File.Exists(path))
             {
                 return;
@@ -55,15 +55,8 @@ namespace Lucence.Logger.Web.Controllers
                     while (!contents.EndOfStream)
                     {
                         int level = rnd.Next(0, 4);
-                        SealedLogModel detail = new SealedLogModel()
-                        {
-                            Level = (SealedLogLevel)level,
-                            ProjectName = "testtxt",
-                            Sign = "测试",
-                            Time = DateTime.Now.AddMinutes(level),
-                            Value = contents.ReadLine()
-                        };
-                        LucenceHelper.StorageData(detail);
+                        SealedLogModel detail = new SealedLogModel();
+                        //LucenceHelper.StorageData(detail);
                     }
                 }
             }

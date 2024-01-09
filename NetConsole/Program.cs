@@ -1,4 +1,5 @@
-﻿using NetConsole.AOPTest;
+﻿using Decrypt;
+using NetConsole.AOPTest;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,9 +12,14 @@ namespace NetConsole
     {
         static void Main(string[] args)
         {
-            PersonRepository personRepository = new PersonRepository("test");
-            var item = personRepository.Person();
-            Console.Read();
+            while (true)
+            {
+                String readStr = Console.ReadLine();
+                String str = new DecryptContent().Decrypt(readStr);
+                Console.WriteLine(str);
+                Console.WriteLine("xxxxxxxxxxxxxxxxxxxxxxxxxxx");
+            }
+            Console.ReadLine();
         }
     }
 }
